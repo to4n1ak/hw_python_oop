@@ -1,12 +1,12 @@
 class InfoMessage:
     """Информационное сообщение о тренировке."""
     def __init__(self,
-                  training_type: str,  # вид тренировки
-                  duration: float,  # длительность тренировки, ч
-                  distance: float, # пройденная за тренировку дистанция, м
-                  speed: float,  # скорость атлета, км/ч
-                  calories: float  # потраченные атлетом килокалории, шт
-                  ) -> None:
+                 training_type: str,  # вид тренировки
+                 duration: float,  # длительность тренировки, ч
+                 distance: float,  # пройденная за тренировку дистанция, м
+                 speed: float,  # скорость атлета, км/ч
+                 calories: float  # потраченные атлетом килокалории, шт
+                 ) -> None:
         self.training_type = training_type
         self.duration = duration
         self.distance = distance
@@ -41,7 +41,7 @@ class Training:
         self.action = action
         self.duration = duration
         self.weight = weight
-  
+
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
         result = (self.action * self.LEN_STEP / self.M_IN_KM)
@@ -74,8 +74,8 @@ class Running(Training):
         """Получить количество затраченных калорий для бега."""
         training_time = self.duration * 60
         result = (((self.coeff_calorie_1 * self.get_mean_speed()
-                    - self.coeff_calorie_2)
-                    * self.weight) / self.M_IN_KM * training_time)
+                  - self.coeff_calorie_2)
+                  * self.weight) / self.M_IN_KM * training_time)
         return result
 
 
@@ -137,7 +137,7 @@ def read_package(workout_type: str, data: list) -> Training:
     training = {'SWM': Swimming,
                 'RUN': Running,
                 'WLK': SportsWalking
-                }  
+                }
     return training[workout_type](*data)
 
 
