@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
+
 @dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
@@ -87,7 +88,7 @@ class SportsWalking(Training):
                  ) -> None:
         super().__init__(action, duration, weight)
         self.height: float = height
-  
+
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий для спортивной ходьбы."""
         training_time = self.duration * self.MIN_IN_HOUR
@@ -136,9 +137,10 @@ def read_package(workout_type: str, data: list) -> Optional[Training]:
                 }
     try:
         return training[workout_type](*data)
-    except KeyError:
+    except KeyError:  # исключение при некорректном типе тренировки
         return None
-    
+
+
 def main(training: Training) -> None:
     """Главная функция."""
     info = training.show_training_info()
@@ -147,13 +149,14 @@ def main(training: Training) -> None:
 
 if __name__ == '__main__':
     packages = [
-        ('SWM', [720, 1, 80, 25, 40]),
-        ('RN', [15000, 1, 75]),
+        ('SM', [720, 1, 80, 25, 40]),
+        ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
     ]
 
     for workout_type, data in packages:
-        if read_package(workout_type, data) == None:
+        """Обработка данных с датчиков с выводом сообщения при ошибке."""
+        if read_package(workout_type, data) is None:
             print('Сбой в работе датчика - тип тренировки не определен.')
         else:
             training = read_package(workout_type, data)
