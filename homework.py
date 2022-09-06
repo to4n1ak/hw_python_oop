@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Union
 
 
 @dataclass
@@ -129,7 +128,7 @@ class Swimming(Training):
         return result
 
 
-def read_package(workout_type: str, data: list) -> Union[Training, str]:
+def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     training = {'SWM': Swimming,
                 'RUN': Running,
@@ -137,11 +136,11 @@ def read_package(workout_type: str, data: list) -> Union[Training, str]:
                 }
     try:
         return training[workout_type](*data)
-    except KeyError as e:  # исключение при некорректном типе тренировки
-        sensor_keys = ''
-        for workout_type in training:
-            sensor_keys += workout_type + '. '
-        print(f'От датчика передано {e}. Доступные значения: {sensor_keys}')
+    except KeyError as e:  #исключение при некорректном типе тренировки
+        training_keys = training.keys()
+        sensor_keys = ", ".join(training_keys)
+        print(f'От датчика передано {e}. Доступные значения {sensor_keys}.')
+
 
 
 def main(training: Training) -> None:
@@ -158,9 +157,8 @@ if __name__ == '__main__':
     ]
 
     for workout_type, data in packages:
-        """Обработка данных с датчиков с выводом сообщения при ошибке."""
+        training = read_package(workout_type, data)
         try:
-            training = read_package(workout_type, data)
             main(training)
         except AttributeError:
             pass
