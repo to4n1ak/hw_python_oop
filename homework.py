@@ -136,11 +136,10 @@ def read_package(workout_type: str, data: list) -> Training:
                 }
     try:
         return training[workout_type](*data)
-    except KeyError as e:  #исключение при некорректном типе тренировки
+    except KeyError as e:  # исключение при некорректном типе тренировки
         training_keys = training.keys()
         sensor_keys = ", ".join(training_keys)
         print(f'От датчика передано {e}. Доступные значения {sensor_keys}.')
-
 
 
 def main(training: Training) -> None:
